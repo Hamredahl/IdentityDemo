@@ -9,7 +9,7 @@
     <nav>
         <a asp-controller="Account" asp-action="Members">Members</a>
         <a asp-controller="Account" asp-action="Register">Register</a>        
-        @if (User.Identity!.IsAuthenticated)
+        @if(User.Identity!.IsAuthenticated)
         {            
             <a asp-controller="Account" asp-action="LogOut">Logout</a>            
         } else

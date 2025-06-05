@@ -1,9 +1,12 @@
-﻿<h3>Members</h3>
+﻿@model MembersVM
+
+<h3>Members</h3>
 @if (User.Identity!.IsAuthenticated)
 {
     <p>
-        Welcome <strong>@User.FindFirst("SpokenName")?.Value</strong>!
+        Welcome <strong>@Model.SpokenName</strong>!
     </p>
+    <p>@Model.FirstName @Model.LastName, Favoritfärg: @Model.FavouriteColour</p>
 }
 else
 {

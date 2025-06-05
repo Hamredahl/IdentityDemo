@@ -7,7 +7,9 @@ namespace IdentityDemo.Web.Views.Account
 {
     public class MembersVM
     {
-        public string FirstName = null!;
-        public string LastName = null!;
+        public string FirstName { get; set; } = null!;
+        public string LastName { get; set; } = null!;
+        public string FavouriteColour { get; set; } = null!;
+        public string SpokenName { get; set; } = null!;
     }
 }

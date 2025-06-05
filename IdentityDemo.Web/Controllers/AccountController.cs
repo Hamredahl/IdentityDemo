@@ -15,9 +15,15 @@ public class AccountController(IUserService userService) : Controller
     [HttpGet("")]
     [HttpGet("members")]
     [Authorize]
-    public IActionResult Members()
+    public async Task<IActionResult> Members()
     {
-        return View();
+        MembersVM viewModel = new MembersVM();
+        var user = await userService.GetUserByNameAsync(User.Identity.Name);
+        viewModel.FirstName = user.FirstName;
+        viewModel.LastName = user.LastName;
+        viewModel.FavouriteColour = user.FavouriteColour;
+        viewModel.SpokenName = User.FindFirst("SpokenName")?.Value;
+        return View(viewModel);
     }
 
     [HttpGet("register")]
@@ -41,8 +47,6 @@ public class AccountController(IUserService userService) : Controller
             ModelState.AddModelError(string.Empty, result.ErrorMessage!);
             return View();
         }
-
-        //LoginVM loginVM = new LoginVM() { Username = viewModel.Email, Password = viewModel.Password};
 
         // Login and redirect user
         await userService.SignInAsync(viewModel.Email, viewModel.Password);

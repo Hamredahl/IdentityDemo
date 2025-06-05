@@ -27,7 +27,7 @@ public class IdentityUserService
             FavouriteColour = user.FavouriteColour
         };
         var result = await userManager.CreateAsync(applicationUser, password);
-        await userManager.AddClaimAsync(applicationUser, new Claim("SpokenName", applicationUser.FirstName));
+        if (result.Succeeded) await userManager.AddClaimAsync(applicationUser, new Claim("SpokenName", applicationUser.FirstName));
 
         return new UserResultDto(result.Errors.FirstOrDefault()?.Description);
     }
@@ -41,5 +41,11 @@ public class IdentityUserService
     public async Task SignOutAsync()
     {
         await signInManager.SignOutAsync();
+    }
+    public async Task<UserProfileDto> GetUserByNameAsync(string name)
+    {
+        ApplicationUser user = await userManager.FindByNameAsync(name);
+        UserProfileDto userProfile = new UserProfileDto(user.Email, user.FirstName, user.LastName, user.FavouriteColour);
+        return userProfile;
     }
 }
