@@ -14,6 +14,7 @@ public class AccountController(IUserService userService) : Controller
 {
     [HttpGet("")]
     [HttpGet("members")]
+    [Authorize]
     public IActionResult Members()
     {
         return View();
@@ -32,7 +33,7 @@ public class AccountController(IUserService userService) : Controller
             return View();
 
         // Try to register user
-        var userDto = new UserProfileDto(viewModel.Email, viewModel.FirstName, viewModel.LastName);
+        var userDto = new UserProfileDto(viewModel.Email, viewModel.FirstName, viewModel.LastName, viewModel.FavouriteColour);
         var result = await userService.CreateUserAsync(userDto, viewModel.Password);
         if (!result.Succeeded)
         {
@@ -41,8 +42,11 @@ public class AccountController(IUserService userService) : Controller
             return View();
         }
 
-        // Redirect user
-        return RedirectToAction(nameof(Login));
+        //LoginVM loginVM = new LoginVM() { Username = viewModel.Email, Password = viewModel.Password};
+
+        // Login and redirect user
+        await userService.SignInAsync(viewModel.Email, viewModel.Password);
+        return RedirectToAction(nameof(Members));
     }
 
     [HttpGet("login")]
@@ -68,5 +72,11 @@ public class AccountController(IUserService userService) : Controller
 
         // Redirect user
         return RedirectToAction(nameof(Members));
+    }
+    [HttpGet("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        await userService.SignOutAsync();
+        return RedirectToAction(nameof(Login));
     }
 }

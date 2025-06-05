@@ -7,4 +7,4 @@ using System.Threading.Tasks;
 namespace IdentityDemo.Application.Dtos;
 
 // Representerar en användare
-public record UserProfileDto(string Email, string FirstName, string LastName);
+public record UserProfileDto(string Email, string FirstName, string LastName, string FavouriteColour);

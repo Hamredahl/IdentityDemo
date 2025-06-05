@@ -18,6 +18,10 @@ namespace IdentityDemo.Web.Views.Account
         public string Email { get; set; } = null!;
 
         [Required]
+        [Display(Name = "Favourite colour")]
+        public string FavouriteColour { get; set; } = null!;
+
+        [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; } = null!;
 

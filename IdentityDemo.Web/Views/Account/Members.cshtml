@@ -2,7 +2,7 @@
 @if (User.Identity!.IsAuthenticated)
 {
     <p>
-        Welcome <strong>@User.Identity!.Name</strong>!
+        Welcome <strong>@User.FindFirst("SpokenName")?.Value</strong>!
     </p>
 }
 else
